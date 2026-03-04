@@ -1,0 +1,36 @@
+{
+  "projectType": "sdk-library",
+  "projectName": "PlatziDate",
+  "projectDescription": "A utility library for handling dates in timestamp and long time formats with locale support.",
+  "theme": "mint",
+  "primaryColor": "#98CA3F",
+  "lightColor": "#B8E86F",
+  "darkColor": "#7AA32F",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": ["introduction", "installation", "quickstart"]
+      },
+      {
+        "group": "API Reference",
+        "pages": ["api/get-timestamp", "api/get-long-time"]
+      },
+      {
+        "group": "Guides",
+        "pages": ["guides/localization", "guides/examples"]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Get current timestamp in milliseconds",
+    "Format dates in long readable format",
+    "Multi-locale support (default: es-ES)",
+    "Lightweight with zero dependencies",
+    "CommonJS module format"
+  ],
+  "publicApiSurface": [
+    "getTimestamp()",
+    "getLongTime(locale)"
+  ]
+}
