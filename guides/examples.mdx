@@ -1,0 +1,438 @@
+---
+title: Real-World Examples
+description: Practical examples of using PlatziDate in your applications for timestamps, logging, and internationalized date displays
+---
+
+## Overview
+
+This guide provides practical, real-world examples of using PlatziDate's `getTimestamp()` and `getLongTime()` functions in common scenarios.
+
+## Example Categories
+
+<CardGroup cols={2}>
+  <Card title="Logging & Debugging" icon="terminal" href="#logging-timestamps">
+    Use timestamps for precise logging and debugging
+  </Card>
+  <Card title="Web Applications" icon="browser" href="#web-applications">
+    Display user-friendly dates in your UI
+  </Card>
+  <Card title="Multi-Region Support" icon="globe" href="#multi-region-apps">
+    Serve dates in different regional formats
+  </Card>
+  <Card title="Combined Usage" icon="code" href="#combining-functions">
+    Use both functions together effectively
+  </Card>
+</CardGroup>
+
+## Logging Timestamps
+
+Timestamps are essential for logging, debugging, and tracking events with millisecond precision.
+
+### Basic Logging
+
+```javascript
+const { getTimestamp } = require('platzidate');
+
+function logEvent(eventName, data) {
+    const timestamp = getTimestamp();
+    console.log(`[${timestamp}] ${eventName}:`, data);
+}
+
+logEvent('User Login', { userId: 12345 });
+logEvent('Database Query', { query: 'SELECT * FROM users', duration: '45ms' });
+```
+
+**Expected Output:**
+```
+[1709547045123] User Login: { userId: 12345 }
+[1709547045156] Database Query: { query: 'SELECT * FROM users', duration: '45ms' }
+```
+
+<Note>
+  The `getTimestamp()` function returns the number of milliseconds since January 1, 1970 (Unix epoch), making it perfect for precise time measurements.
+</Note>
+
+### Performance Monitoring
+
+```javascript
+const { getTimestamp } = require('platzidate');
+
+function measurePerformance(fn, label) {
+    const startTime = getTimestamp();
+    const result = fn();
+    const endTime = getTimestamp();
+    const duration = endTime - startTime;
+    
+    console.log(`${label} completed in ${duration}ms`);
+    return result;
+}
+
+// Example usage
+measurePerformance(() => {
+    // Simulate API call
+    let sum = 0;
+    for (let i = 0; i < 1000000; i++) {
+        sum += i;
+    }
+    return sum;
+}, 'Heavy Calculation');
+```
+
+**Expected Output:**
+```
+Heavy Calculation completed in 8ms
+```
+
+<Tip>
+  Use `getTimestamp()` for measuring performance and calculating durations. The millisecond precision helps identify bottlenecks in your code.
+</Tip>
+
+## Web Applications
+
+Display human-readable dates in your web applications with proper localization.
+
+### User Dashboard
+
+```javascript
+const { getLongTime } = require('platzidate');
+
+function renderUserDashboard(userLocale) {
+    const currentTime = getLongTime(userLocale);
+    
+    return `
+        <div class="dashboard">
+            <h1>Welcome Back!</h1>
+            <p class="last-login">Last login: ${currentTime}</p>
+        </div>
+    `;
+}
+
+// For US user
+console.log(renderUserDashboard('en-US'));
+// For Spanish user
+console.log(renderUserDashboard('es-ES'));
+```
+
+**Expected Output (en-US):**
+```html
+<div class="dashboard">
+    <h1>Welcome Back!</h1>
+    <p class="last-login">Last login: Wednesday, March 4, 2026 at 10:30:45 AM GMT</p>
+</div>
+```
+
+**Expected Output (es-ES):**
+```html
+<div class="dashboard">
+    <h1>Welcome Back!</h1>
+    <p class="last-login">Last login: miércoles, 4 de marzo de 2026, 10:30:45 GMT</p>
+</div>
+```
+
+### Blog Post Metadata
+
+```javascript
+const { getLongTime, getTimestamp } = require('platzidate');
+
+class BlogPost {
+    constructor(title, content, author) {
+        this.title = title;
+        this.content = content;
+        this.author = author;
+        this.publishedAt = getTimestamp();
+    }
+    
+    getPublishedDate(locale = 'en-US') {
+        return getLongTime(locale);
+    }
+    
+    render(locale) {
+        return `
+            <article>
+                <h2>${this.title}</h2>
+                <p class="meta">By ${this.author} | Published: ${this.getPublishedDate(locale)}</p>
+                <div>${this.content}</div>
+            </article>
+        `;
+    }
+}
+
+const post = new BlogPost(
+    'Getting Started with PlatziDate',
+    'PlatziDate is a simple date utility library...',
+    'Jane Developer'
+);
+
+console.log(post.render('en-US'));
+```
+
+**Expected Output:**
+```html
+<article>
+    <h2>Getting Started with PlatziDate</h2>
+    <p class="meta">By Jane Developer | Published: Wednesday, March 4, 2026 at 10:30:45 AM GMT</p>
+    <div>PlatziDate is a simple date utility library...</div>
+</article>
+```
+
+## Multi-Region Apps
+
+Build applications that serve users across different regions with appropriate date formats.
+
+### Region-Specific Notifications
+
+```javascript
+const { getLongTime } = require('platzidate');
+
+const REGION_LOCALES = {
+    'US': 'en-US',
+    'ES': 'es-ES',
+    'FR': 'fr-FR',
+    'DE': 'de-DE',
+    'BR': 'pt-BR',
+    'JP': 'ja-JP'
+};
+
+function sendNotification(userRegion, message) {
+    const locale = REGION_LOCALES[userRegion] || 'en-US';
+    const timestamp = getLongTime(locale);
+    
+    return {
+        message: message,
+        timestamp: timestamp,
+        region: userRegion,
+        locale: locale
+    };
+}
+
+// Send notifications to users in different regions
+console.log(sendNotification('US', 'Your order has shipped!'));
+console.log(sendNotification('ES', 'Your order has shipped!'));
+console.log(sendNotification('JP', 'Your order has shipped!'));
+```
+
+**Expected Output:**
+```javascript
+{
+  message: 'Your order has shipped!',
+  timestamp: 'Wednesday, March 4, 2026 at 10:30:45 AM GMT',
+  region: 'US',
+  locale: 'en-US'
+}
+{
+  message: 'Your order has shipped!',
+  timestamp: 'miércoles, 4 de marzo de 2026, 10:30:45 GMT',
+  region: 'ES',
+  locale: 'es-ES'
+}
+{
+  message: 'Your order has shipped!',
+  timestamp: '2026年3月4日水曜日 10:30:45 GMT',
+  region: 'JP',
+  locale: 'ja-JP'
+}
+```
+
+<Tip>
+  Create a locale mapping object to easily manage regional preferences across your application.
+</Tip>
+
+### E-commerce Order Tracking
+
+```javascript
+const { getTimestamp, getLongTime } = require('platzidate');
+
+class Order {
+    constructor(orderId, customerLocale) {
+        this.orderId = orderId;
+        this.customerLocale = customerLocale;
+        this.events = [];
+    }
+    
+    addEvent(eventType) {
+        this.events.push({
+            type: eventType,
+            timestamp: getTimestamp()
+        });
+    }
+    
+    getOrderHistory() {
+        return this.events.map(event => ({
+            type: event.type,
+            timestamp: event.timestamp,
+            formattedDate: getLongTime(this.customerLocale)
+        }));
+    }
+}
+
+const order = new Order('ORD-12345', 'de-DE');
+order.addEvent('Order Placed');
+order.addEvent('Payment Confirmed');
+order.addEvent('Shipped');
+
+console.log(order.getOrderHistory());
+```
+
+**Expected Output:**
+```javascript
+[
+  {
+    type: 'Order Placed',
+    timestamp: 1709547045123,
+    formattedDate: 'Mittwoch, 4. März 2026 um 10:30:45 GMT'
+  },
+  {
+    type: 'Payment Confirmed',
+    timestamp: 1709547045156,
+    formattedDate: 'Mittwoch, 4. März 2026 um 10:30:45 GMT'
+  },
+  {
+    type: 'Shipped',
+    timestamp: 1709547045189,
+    formattedDate: 'Mittwoch, 4. März 2026 um 10:30:45 GMT'
+  }
+]
+```
+
+## Combining Functions
+
+Use both `getTimestamp()` and `getLongTime()` together for powerful date handling.
+
+### Event Logger with Dual Formats
+
+```javascript
+const { getTimestamp, getLongTime } = require('platzidate');
+
+class EventLogger {
+    constructor(locale = 'en-US') {
+        this.locale = locale;
+        this.events = [];
+    }
+    
+    log(eventName, data = {}) {
+        const event = {
+            name: eventName,
+            data: data,
+            timestamp: getTimestamp(),
+            readableTime: getLongTime(this.locale)
+        };
+        
+        this.events.push(event);
+        console.log(`[${event.timestamp}] ${eventName}`);
+        console.log(`  Human readable: ${event.readableTime}`);
+        console.log(`  Data:`, data);
+    }
+    
+    exportLogs() {
+        return this.events;
+    }
+}
+
+const logger = new EventLogger('fr-FR');
+logger.log('Application Started', { version: '1.0.0' });
+logger.log('User Authenticated', { userId: 42, username: 'jean.dupont' });
+
+console.log('\nExported Logs:', logger.exportLogs());
+```
+
+**Expected Output:**
+```
+[1709547045123] Application Started
+  Human readable: mercredi 4 mars 2026 à 10:30:45 UTC
+  Data: { version: '1.0.0' }
+[1709547045156] User Authenticated
+  Human readable: mercredi 4 mars 2026 à 10:30:45 UTC
+  Data: { userId: 42, username: 'jean.dupont' }
+
+Exported Logs: [
+  {
+    name: 'Application Started',
+    data: { version: '1.0.0' },
+    timestamp: 1709547045123,
+    readableTime: 'mercredi 4 mars 2026 à 10:30:45 UTC'
+  },
+  {
+    name: 'User Authenticated',
+    data: { userId: 42, username: 'jean.dupont' },
+    timestamp: 1709547045156,
+    readableTime: 'mercredi 4 mars 2026 à 10:30:45 UTC'
+  }
+]
+```
+
+### API Response Formatter
+
+```javascript
+const { getTimestamp, getLongTime } = require('platzidate');
+
+function formatApiResponse(data, userLocale = 'en-US') {
+    return {
+        success: true,
+        data: data,
+        timestamp: getTimestamp(),
+        serverTime: getLongTime(userLocale),
+        requestId: Math.random().toString(36).substr(2, 9)
+    };
+}
+
+// Example API responses
+const userResponse = formatApiResponse(
+    { id: 1, name: 'Alice Smith', email: 'alice@example.com' },
+    'en-US'
+);
+
+const productResponse = formatApiResponse(
+    { id: 101, name: 'Laptop', price: 999.99 },
+    'es-ES'
+);
+
+console.log('User API Response:', userResponse);
+console.log('\nProduct API Response:', productResponse);
+```
+
+**Expected Output:**
+```javascript
+User API Response: {
+  success: true,
+  data: { id: 1, name: 'Alice Smith', email: 'alice@example.com' },
+  timestamp: 1709547045123,
+  serverTime: 'Wednesday, March 4, 2026 at 10:30:45 AM GMT',
+  requestId: 'k7j2n8x9q'
+}
+
+Product API Response: {
+  success: true,
+  data: { id: 101, name: 'Laptop', price: 999.99 },
+  timestamp: 1709547045156,
+  serverTime: 'miércoles, 4 de marzo de 2026, 10:30:45 GMT',
+  requestId: 'm3p9q2w5r'
+}
+```
+
+<Note>
+  Combining both functions gives you the precision of timestamps for programmatic use and the readability of formatted dates for human consumption.
+</Note>
+
+## Best Practices
+
+<CardGroup cols={1}>
+  <Card title="Use getTimestamp() for Calculations">
+    Always use `getTimestamp()` for time calculations, comparisons, and sorting. It provides consistent, timezone-independent millisecond values.
+  </Card>
+  
+  <Card title="Use getLongTime() for Display">
+    Use `getLongTime()` when showing dates to users. It automatically handles locale formatting and provides readable output.
+  </Card>
+  
+  <Card title="Store Timestamps, Display Localized">
+    Store timestamps in your database and convert them to localized strings only when displaying to users.
+  </Card>
+  
+  <Card title="Respect User Preferences">
+    Always try to detect and use the user's preferred locale from their browser or profile settings.
+  </Card>
+</CardGroup>
+
+<Tip>
+  For production applications, consider caching locale preferences and formatted date strings to improve performance.
+</Tip>

@@ -1,0 +1,226 @@
+---
+title: Localization Guide
+description: Learn how to use PlatziDate's locale support to format dates for different regions and languages
+---
+
+## Overview
+
+PlatziDate's `getLongTime()` function provides powerful internationalization support through JavaScript's built-in `Intl.DateTimeFormat` API. You can display dates and times in any locale format supported by the browser.
+
+## How Locale Support Works
+
+The `getLongTime()` function accepts a locale parameter and uses the following formatting options:
+
+```javascript
+const options = {
+    weekday: 'long',      // Full weekday name
+    year: 'numeric',      // Full year (e.g., 2026)
+    month: 'long',        // Full month name
+    day: 'numeric',       // Day of the month
+    hour: 'numeric',      // Hour
+    second: 'numeric',    // Second
+    timeZoneName: 'short' // Short timezone name
+}
+```
+
+These options are passed to `toLocaleString()` to format the current date according to the specified locale conventions.
+
+## Default Locale
+
+If no locale is specified, PlatziDate defaults to **Spanish (Spain)** (`es-ES`):
+
+```javascript
+const { getLongTime } = require('platzidate');
+
+// Uses default es-ES locale
+console.log(getLongTime());
+// Output: "miércoles, 4 de marzo de 2026, 10:30:45 GMT"
+```
+
+## Locale Examples
+
+Here are examples showing how dates are formatted across different locales:
+
+<Tabs>
+  <Tab title="English (US)">
+    ```javascript
+    const { getLongTime } = require('platzidate');
+
+    console.log(getLongTime('en-US'));
+    ```
+    
+    **Output:**
+    ```
+    Wednesday, March 4, 2026 at 10:30:45 AM GMT
+    ```
+  </Tab>
+
+  <Tab title="Spanish (Spain)">
+    ```javascript
+    const { getLongTime } = require('platzidate');
+
+    console.log(getLongTime('es-ES'));
+    ```
+    
+    **Output:**
+    ```
+    miércoles, 4 de marzo de 2026, 10:30:45 GMT
+    ```
+  </Tab>
+
+  <Tab title="French (France)">
+    ```javascript
+    const { getLongTime } = require('platzidate');
+
+    console.log(getLongTime('fr-FR'));
+    ```
+    
+    **Output:**
+    ```
+    mercredi 4 mars 2026 à 10:30:45 UTC
+    ```
+  </Tab>
+
+  <Tab title="German (Germany)">
+    ```javascript
+    const { getLongTime } = require('platzidate');
+
+    console.log(getLongTime('de-DE'));
+    ```
+    
+    **Output:**
+    ```
+    Mittwoch, 4. März 2026 um 10:30:45 GMT
+    ```
+  </Tab>
+
+  <Tab title="Italian (Italy)">
+    ```javascript
+    const { getLongTime } = require('platzidate');
+
+    console.log(getLongTime('it-IT'));
+    ```
+    
+    **Output:**
+    ```
+    mercoledì 4 marzo 2026, 10:30:45 GMT
+    ```
+  </Tab>
+
+  <Tab title="Portuguese (Brazil)">
+    ```javascript
+    const { getLongTime } = require('platzidate');
+
+    console.log(getLongTime('pt-BR'));
+    ```
+    
+    **Output:**
+    ```
+    quarta-feira, 4 de março de 2026 10:30:45 GMT
+    ```
+  </Tab>
+
+  <Tab title="Japanese (Japan)">
+    ```javascript
+    const { getLongTime } = require('platzidate');
+
+    console.log(getLongTime('ja-JP'));
+    ```
+    
+    **Output:**
+    ```
+    2026年3月4日水曜日 10:30:45 GMT
+    ```
+  </Tab>
+
+  <Tab title="Chinese (China)">
+    ```javascript
+    const { getLongTime } = require('platzidate');
+
+    console.log(getLongTime('zh-CN'));
+    ```
+    
+    **Output:**
+    ```
+    2026年3月4日星期三 GMT 10:30:45
+    ```
+  </Tab>
+
+  <Tab title="Arabic (Saudi Arabia)">
+    ```javascript
+    const { getLongTime } = require('platzidate');
+
+    console.log(getLongTime('ar-SA'));
+    ```
+    
+    **Output:**
+    ```
+    الأربعاء، 4 مارس 2026 في 10:30:45 غرينتش
+    ```
+  </Tab>
+
+  <Tab title="Russian (Russia)">
+    ```javascript
+    const { getLongTime } = require('platzidate');
+
+    console.log(getLongTime('ru-RU'));
+    ```
+    
+    **Output:**
+    ```
+    среда, 4 марта 2026 г., 10:30:45 GMT
+    ```
+  </Tab>
+</Tabs>
+
+## Locale Comparison Table
+
+| Locale | Language | Date Format Style |
+|--------|----------|------------------|
+| `en-US` | English (United States) | Month Day, Year |
+| `es-ES` | Spanish (Spain) | Day de Month de Year |
+| `fr-FR` | French (France) | Day Month Year |
+| `de-DE` | German (Germany) | Day. Month Year |
+| `it-IT` | Italian (Italy) | Day Month Year |
+| `pt-BR` | Portuguese (Brazil) | Day de Month de Year |
+| `ja-JP` | Japanese (Japan) | Year年Month月Day日 |
+| `zh-CN` | Chinese (China) | Year年Month月Day日 |
+| `ar-SA` | Arabic (Saudi Arabia) | Day Month Year (RTL) |
+| `ru-RU` | Russian (Russia) | Day Month Year г. |
+
+<Note>
+  The actual output may vary slightly depending on your system's timezone and the exact time the function is called.
+</Note>
+
+## Finding More Locales
+
+PlatziDate supports any valid BCP 47 language tag. For a complete list of supported locales and their formats, refer to:
+
+- [MDN: Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
+- [BCP 47 Language Tags](https://www.ietf.org/rfc/bcp/bcp47.txt)
+
+<Tip>
+  Test your locale codes in a browser console using `new Date().toLocaleString('your-locale')` to see how dates will be formatted before implementing them in your application.
+</Tip>
+
+## Dynamic Locale Selection
+
+You can dynamically select locales based on user preferences:
+
+```javascript
+const { getLongTime } = require('platzidate');
+
+function getLocalizedTime(userLocale) {
+    // Fallback to en-US if user locale is not provided
+    const locale = userLocale || 'en-US';
+    return getLongTime(locale);
+}
+
+// From user settings or browser
+const userLanguage = navigator.language; // e.g., 'fr-FR'
+console.log(getLocalizedTime(userLanguage));
+```
+
+<Tip>
+  Always provide a fallback locale to ensure your application displays dates correctly even when the user's locale preference is unavailable.
+</Tip>

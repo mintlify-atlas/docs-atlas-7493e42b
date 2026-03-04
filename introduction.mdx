@@ -1,0 +1,165 @@
+---
+title: Introduction
+description: A lightweight JavaScript utility for handling dates in timestamp and long time formats with locale support
+mode: custom
+---
+
+<div className="relative overflow-hidden bg-gradient-to-br from-[#98CA3F] via-[#7AA32F] to-[#5a8020] dark:from-[#7AA32F] dark:via-[#5a8020] dark:to-[#3d5616] py-20">
+  <div className="max-w-6xl mx-auto px-6 lg:px-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div className="lg:col-span-7">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+          Welcome to PlatziDate
+        </h1>
+        <p className="text-lg sm:text-xl text-white/90 max-w-2xl mb-8">
+          A simple, lightweight utility for handling dates in JavaScript. Get timestamps and beautifully formatted dates with multi-locale support.
+        </p>
+        <div className="flex flex-wrap gap-4">
+          <a 
+            href="/quickstart" 
+            className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-[#7AA32F] font-semibold hover:bg-white/90 transition-colors no-underline"
+          >
+            Get Started
+          </a>
+          <a 
+            href="/api/get-timestamp" 
+            className="inline-flex items-center px-6 py-3 rounded-lg border border-white/30 bg-white/10 text-white font-semibold hover:bg-white/20 transition-colors no-underline"
+          >
+            API Reference
+          </a>
+        </div>
+      </div>
+      <div className="lg:col-span-5 hidden lg:block">
+        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+          <div className="text-white/60 text-sm mb-2">Example</div>
+          <pre className="text-white text-sm overflow-x-auto">
+{`const platzidate = require('platzidate');
+
+// Get current timestamp
+const timestamp = platzidate.getTimestamp();
+// 1709572800000
+
+// Get formatted date
+const date = platzidate.getLongTime('es-ES');
+// "lunes, 4 de marzo de 2024, 12:00:00 GMT"`}
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-4">
+    Key Features
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Everything you need for date handling in JavaScript
+  </p>
+
+  <CardGroup cols={2}>
+    <Card title="Lightweight" icon="feather">
+      Zero dependencies. Just simple, pure JavaScript that works anywhere.
+    </Card>
+    <Card title="Multi-locale" icon="globe">
+      Support for multiple locales with default Spanish (es-ES) formatting.
+    </Card>
+    <Card title="Easy to use" icon="rocket">
+      Two simple functions: get timestamps or formatted dates. That's it.
+    </Card>
+    <Card title="CommonJS" icon="box">
+      Works with Node.js and any CommonJS-compatible environment.
+    </Card>
+  </CardGroup>
+</div>
+
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-4">
+    Quick Start
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Get up and running in less than a minute
+  </p>
+
+  <Steps>
+    <Step title="Install the package">
+      Install PlatziDate using npm:
+      
+      ```bash
+      npm install platzidate
+      ```
+    </Step>
+    
+    <Step title="Import and use">
+      Require the module and start using it immediately:
+      
+      ```javascript
+      const platzidate = require('platzidate');
+      
+      // Get current timestamp
+      const timestamp = platzidate.getTimestamp();
+      console.log(timestamp); // 1709572800000
+      
+      // Get formatted date
+      const formattedDate = platzidate.getLongTime();
+      console.log(formattedDate); 
+      // "lunes, 4 de marzo de 2024, 12:00:00 GMT"
+      ```
+    </Step>
+    
+    <Step title="Customize locale">
+      Use different locales for international date formatting:
+      
+      ```javascript
+      // English (US)
+      const usDate = platzidate.getLongTime('en-US');
+      // "Monday, March 4, 2024, 12:00:00 PM GMT"
+      
+      // French
+      const frDate = platzidate.getLongTime('fr-FR');
+      // "lundi 4 mars 2024, 12:00:00 UTC"
+      ```
+    </Step>
+  </Steps>
+</div>
+
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-4">
+    Explore the Documentation
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Learn more about what PlatziDate can do
+  </p>
+
+  <CardGroup cols={2}>
+    <Card title="Installation" icon="download" href="/installation">
+      Detailed installation instructions and setup guide
+    </Card>
+    <Card title="Quickstart" icon="bolt" href="/quickstart">
+      Get started with PlatziDate in minutes
+    </Card>
+    <Card title="API Reference" icon="code" href="/api/get-timestamp">
+      Complete API documentation for all functions
+    </Card>
+    <Card title="Localization Guide" icon="language" href="/guides/localization">
+      Learn how to use different locales
+    </Card>
+  </CardGroup>
+</div>
+
+<div className="mt-20 mb-16 max-w-5xl mx-auto px-6">
+  <div className="bg-gradient-to-r from-[#98CA3F]/10 to-[#7AA32F]/10 dark:from-[#7AA32F]/20 dark:to-[#5a8020]/20 rounded-2xl p-8 sm:p-12 border border-[#98CA3F]/20 dark:border-[#7AA32F]/30">
+    <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-4">
+      Ready to get started?
+    </h2>
+    <p className="text-base text-gray-600 dark:text-gray-400 mb-6 max-w-2xl">
+      Install PlatziDate and start handling dates with ease in your JavaScript projects.
+    </p>
+    <a 
+      href="/quickstart" 
+      className="inline-flex items-center px-6 py-3 rounded-lg bg-[#98CA3F] text-white font-semibold hover:bg-[#7AA32F] transition-colors no-underline"
+    >
+      Get Started Now
+    </a>
+  </div>
+</div>

@@ -1,0 +1,132 @@
+---
+title: Installation
+description: Install PlatziDate in your JavaScript project
+---
+
+## Install via npm
+
+PlatziDate is available on npm and can be installed using your preferred package manager.
+
+<CodeGroup>
+```bash npm
+npm install platzidate
+```
+
+```bash yarn
+yarn add platzidate
+```
+
+```bash pnpm
+pnpm add platzidate
+```
+</CodeGroup>
+
+## Requirements
+
+<Note>
+  PlatziDate is a CommonJS module that works with Node.js and any CommonJS-compatible environment. There are no dependencies required.
+</Note>
+
+### System Requirements
+
+- **Node.js**: Any version that supports CommonJS modules
+- **Package Manager**: npm, yarn, or pnpm
+- **Dependencies**: None (zero dependencies!)
+
+## Verify Installation
+
+After installing, verify that PlatziDate is working correctly:
+
+```javascript
+const platzidate = require('platzidate');
+
+// Test getTimestamp
+const timestamp = platzidate.getTimestamp();
+console.log('Timestamp:', timestamp);
+// Output: Timestamp: 1709572800000
+
+// Test getLongTime
+const formattedDate = platzidate.getLongTime();
+console.log('Formatted date:', formattedDate);
+// Output: Formatted date: lunes, 4 de marzo de 2024, 12:00:00 GMT
+```
+
+<Accordion title="Expected output">
+  If everything is working correctly, you should see:
+  - A numeric timestamp (e.g., `1709572800000`)
+  - A formatted date string in Spanish locale by default (e.g., `"lunes, 4 de marzo de 2024, 12:00:00 GMT"`)
+</Accordion>
+
+## Module Format
+
+PlatziDate uses the CommonJS module format:
+
+```javascript
+// Import the module
+const platzidate = require('platzidate');
+
+// Access the exported functions
+const { getTimestamp, getLongTime } = require('platzidate');
+```
+
+<Tip>
+  The module exports two functions: `getTimestamp` and `getLongTime`. Both are available immediately after requiring the package.
+</Tip>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Module not found error">
+    If you see a "Cannot find module 'platzidate'" error:
+    
+    1. Verify the package is installed: `npm list platzidate`
+    2. Check your `node_modules` directory for the `platzidate` folder
+    3. Try reinstalling: `npm install platzidate --force`
+  </Accordion>
+  
+  <Accordion title="CommonJS vs ES Modules">
+    PlatziDate uses CommonJS (`require`/`module.exports`). If you're using ES modules:
+    
+    ```javascript
+    // This won't work - PlatziDate uses CommonJS
+    import platzidate from 'platzidate'; // ❌
+    
+    // Use require instead
+    const platzidate = require('platzidate'); // ✓
+    ```
+  </Accordion>
+  
+  <Accordion title="TypeScript support">
+    PlatziDate is written in JavaScript and doesn't include TypeScript definitions. If you're using TypeScript, you may need to create a declaration file:
+    
+    ```typescript
+    // platzidate.d.ts
+    declare module 'platzidate' {
+      export function getTimestamp(): number;
+      export function getLongTime(locale?: string): string;
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+Now that you have PlatziDate installed, learn how to use it:
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="bolt" href="/quickstart">
+    Get started with PlatziDate in minutes
+  </Card>
+  
+  <Card title="API Reference" icon="code" href="/api/get-timestamp">
+    Explore the complete API documentation
+  </Card>
+  
+  <Card title="Examples" icon="lightbulb" href="/guides/examples">
+    See real-world usage examples
+  </Card>
+  
+  <Card title="Localization" icon="globe" href="/guides/localization">
+    Learn about locale support
+  </Card>
+</CardGroup>

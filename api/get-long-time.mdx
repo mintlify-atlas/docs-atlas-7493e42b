@@ -1,0 +1,165 @@
+---
+title: 'getLongTime()'
+description: 'Returns a formatted date and time string with full details including weekday, date, time, and timezone'
+---
+
+## Function Signature
+
+```javascript
+function getLongTime(locale = 'es-ES')
+```
+
+## Description
+
+The `getLongTime()` function returns a fully formatted date and time string in a human-readable format. It includes the weekday, full date, time, and timezone information, localized according to the specified locale.
+
+## Parameters
+
+<ParamField path="locale" type="string" default="'es-ES'">
+  The locale code for formatting the date and time. Determines the language and regional formatting conventions.
+  
+  Common locale codes:
+  - `'en-US'` - English (United States)
+  - `'es-ES'` - Spanish (Spain)
+  - `'fr-FR'` - French (France)
+  - `'de-DE'` - German (Germany)
+  - `'ja-JP'` - Japanese (Japan)
+  - `'pt-BR'` - Portuguese (Brazil)
+  - `'it-IT'` - Italian (Italy)
+</ParamField>
+
+## Return Value
+
+<ResponseField name="formattedDate" type="string">
+  A formatted string containing the current date and time with full details including:
+  - Weekday name (long format)
+  - Full date (day, month, year)
+  - Time with hours and seconds
+  - Timezone abbreviation
+</ResponseField>
+
+## Implementation
+
+```javascript
+function getLongTime(locale ='es-ES'){
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        second: 'numeric',
+        timeZoneName: 'short'
+    }
+    return new Date().toLocaleString(locale, options)
+}
+```
+
+<Expandable title="Formatting Options Explained">
+  The function uses the following `Intl.DateTimeFormat` options internally:
+  
+  - **weekday: 'long'** - Full weekday name (e.g., "Monday", "lunes")
+  - **year: 'numeric'** - Four-digit year (e.g., "2026")
+  - **month: 'long'** - Full month name (e.g., "March", "marzo")
+  - **day: 'numeric'** - Day of the month (e.g., "4")
+  - **hour: 'numeric'** - Hour in 12 or 24-hour format depending on locale
+  - **second: 'numeric'** - Seconds (e.g., "30")
+  - **timeZoneName: 'short'** - Abbreviated timezone (e.g., "GMT", "PST")
+</Expandable>
+
+## Usage Examples
+
+### Default Usage (Spanish)
+
+```javascript
+const { getLongTime } = require('platzidate');
+
+const dateString = getLongTime();
+console.log(dateString);
+// Output: miércoles, 4 de marzo de 2026, 12:00:00 GMT
+```
+
+### English (United States)
+
+```javascript
+const { getLongTime } = require('platzidate');
+
+const dateString = getLongTime('en-US');
+console.log(dateString);
+// Output: Wednesday, March 4, 2026 at 12:00:00 PM GMT
+```
+
+### French (France)
+
+```javascript
+const { getLongTime } = require('platzidate');
+
+const dateString = getLongTime('fr-FR');
+console.log(dateString);
+// Output: mercredi 4 mars 2026 à 12:00:00 UTC
+```
+
+### German (Germany)
+
+```javascript
+const { getLongTime } = require('platzidate');
+
+const dateString = getLongTime('de-DE');
+console.log(dateString);
+// Output: Mittwoch, 4. März 2026 um 12:00:00 GMT
+```
+
+### Japanese (Japan)
+
+```javascript
+const { getLongTime } = require('platzidate');
+
+const dateString = getLongTime('ja-JP');
+console.log(dateString);
+// Output: 2026年3月4日水曜日 12:00:00 GMT
+```
+
+### Multiple Locales Comparison
+
+```javascript
+const { getLongTime } = require('platzidate');
+
+const locales = ['en-US', 'es-ES', 'fr-FR', 'de-DE', 'ja-JP'];
+
+locales.forEach(locale => {
+  console.log(`${locale}: ${getLongTime(locale)}`);
+});
+
+// Output:
+// en-US: Wednesday, March 4, 2026 at 12:00:00 PM GMT
+// es-ES: miércoles, 4 de marzo de 2026, 12:00:00 GMT
+// fr-FR: mercredi 4 mars 2026 à 12:00:00 UTC
+// de-DE: Mittwoch, 4. März 2026 um 12:00:00 GMT
+// ja-JP: 2026年3月4日水曜日 12:00:00 GMT
+```
+
+### Display Current Time in UI
+
+```javascript
+const { getLongTime } = require('platzidate');
+
+// Get user's browser locale
+const userLocale = navigator.language || 'en-US';
+
+function displayCurrentTime() {
+  const timeElement = document.getElementById('current-time');
+  timeElement.textContent = getLongTime(userLocale);
+}
+
+displayCurrentTime();
+// Displays localized time based on user's browser settings
+```
+
+## Use Cases
+
+- **User Interfaces**: Display human-readable timestamps in applications
+- **Reports and Documents**: Generate formatted date/time for reports
+- **Internationalization**: Provide localized date formats for global users
+- **Event Scheduling**: Show event times in user's preferred format
+- **Audit Logs**: Create readable timestamps for system events
+- **Email Templates**: Include formatted dates in email notifications

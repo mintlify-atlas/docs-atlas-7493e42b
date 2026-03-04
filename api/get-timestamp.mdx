@@ -1,0 +1,102 @@
+---
+title: 'getTimestamp()'
+description: 'Returns the current timestamp in milliseconds since the Unix epoch'
+---
+
+## Function Signature
+
+```javascript
+function getTimestamp()
+```
+
+## Description
+
+The `getTimestamp()` function returns the current timestamp in milliseconds since January 1, 1970 00:00:00 UTC (Unix epoch). This is a simple wrapper around JavaScript's `Date.now()` method.
+
+## Parameters
+
+This function takes no parameters.
+
+## Return Value
+
+<ResponseField name="timestamp" type="number">
+  The current timestamp in milliseconds since the Unix epoch (January 1, 1970 00:00:00 UTC)
+</ResponseField>
+
+## Implementation
+
+```javascript
+function getTimestamp(){
+    return Date.now()
+}
+```
+
+## Usage Examples
+
+### Basic Usage
+
+```javascript
+const { getTimestamp } = require('platzidate');
+
+const timestamp = getTimestamp();
+console.log(timestamp);
+// Output: 1772793600000
+```
+
+### Creating Log Entries
+
+```javascript
+const { getTimestamp } = require('platzidate');
+
+function logMessage(message) {
+  const timestamp = getTimestamp();
+  console.log(`[${timestamp}] ${message}`);
+}
+
+logMessage('Application started');
+// Output: [1772793600000] Application started
+```
+
+### Database Record Creation
+
+```javascript
+const { getTimestamp } = require('platzidate');
+
+const newUser = {
+  id: 1,
+  name: 'John Doe',
+  createdAt: getTimestamp(),
+  updatedAt: getTimestamp()
+};
+
+console.log(newUser);
+// Output: { id: 1, name: 'John Doe', createdAt: 1772793600000, updatedAt: 1772793600000 }
+```
+
+### Measuring Execution Time
+
+```javascript
+const { getTimestamp } = require('platzidate');
+
+const startTime = getTimestamp();
+
+// Perform some operation
+for (let i = 0; i < 1000000; i++) {
+  // Processing...
+}
+
+const endTime = getTimestamp();
+const executionTime = endTime - startTime;
+
+console.log(`Operation took ${executionTime}ms`);
+// Output: Operation took 45ms
+```
+
+## Use Cases
+
+- **Logging**: Add precise timestamps to log entries
+- **Database Records**: Track creation and modification times
+- **Performance Monitoring**: Measure execution time of operations
+- **Cache Expiration**: Calculate when cached data should expire
+- **Event Tracking**: Record when user actions occur
+- **API Rate Limiting**: Track request timestamps for rate limiting
